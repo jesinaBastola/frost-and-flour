@@ -1,0 +1,59 @@
+<%-- 
+    FILE: Site.Master
+    PURPOSE: Main layout - navigation bar, footer, Tailwind CSS
+    HOW TO ADD: Right-click project > Add > New Item > Web Forms Master Page > Name: Site.Master
+--%>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="FrostAndFlour.Site" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frost & Flour - Online Bakery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .navbar-brand { font-family: Georgia, serif; }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body class="bg-amber-50 text-gray-800">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="bg-amber-800 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="~/Default.aspx" runat="server" class="navbar-brand text-2xl font-bold text-amber-100">
+                🍰 Frost & Flour
+            </a>
+            <div class="flex gap-6 items-center text-sm font-medium">
+                <a href="~/Products.aspx" runat="server" class="hover:text-amber-300">Shop</a>
+                <a href="~/Cart.aspx" runat="server" class="hover:text-amber-300">🛒 Cart</a>
+
+                <% if (Session["UserID"] != null) { %>
+                    <a href="~/Orders.aspx" runat="server" class="hover:text-amber-300">My Orders</a>
+                    <% if (Session["Role"] != null && Session["Role"].ToString() == "Admin") { %>
+                        <a href="~/Admin/Dashboard.aspx" runat="server" class="hover:text-amber-300 text-yellow-300">Admin</a>
+                    <% } %>
+                    <a href="~/Logout.aspx" runat="server" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded">Logout</a>
+                <% } else { %>
+                    <a href="~/Login.aspx" runat="server" class="hover:text-amber-300">Login</a>
+                    <a href="~/Register.aspx" runat="server" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded">Sign Up</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="min-h-screen">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-amber-900 text-amber-200 text-center py-6 mt-10">
+        <p class="text-sm">&copy; 2025 Frost & Flour. All rights reserved.</p>
+        <p class="text-xs mt-1">Baked with ❤️ for every occasion</p>
+    </footer>
+
+</body>
+</html>

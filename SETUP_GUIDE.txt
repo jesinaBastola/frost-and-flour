@@ -1,0 +1,236 @@
+=======================================================
+  FROST & FLOUR — ONLINE BAKERY ORDERING SYSTEM
+  COMPLETE SETUP GUIDE  |  Shiksha Nepali | NP069757
+=======================================================
+
+WHAT YOU ARE BUILDING:
+  A full ASP.NET Web Forms bakery website with:
+  - Customer: Register, Login, Browse Products, Custom Cake Order,
+              Cart, Checkout, Order Tracking, Reviews
+  - Admin:    Dashboard, Manage Products, Manage Orders,
+              Manage Customers, Sales Reports
+
+=======================================================
+STEP 1 — INSTALL SOFTWARE
+=======================================================
+
+1. Download & install Visual Studio 2022 Community (FREE):
+   https://visualstudio.microsoft.com/downloads/
+   - During setup, check: "ASP.NET and web development"
+
+2. Download & install SQL Server 2022 Express (FREE):
+   https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+   - Choose "Express" edition
+
+3. Download & install SQL Server Management Studio - SSMS (FREE):
+   https://aka.ms/ssmsfullsetup
+
+=======================================================
+STEP 2 — CREATE THE VISUAL STUDIO PROJECT
+=======================================================
+
+1. Open Visual Studio 2022
+2. Click "Create a new project"
+3. Search for: ASP.NET Web Application (.NET Framework)
+4. Click Next
+5. Project name: FrostAndFlour
+6. Location: choose your folder (e.g. C:\Projects\)
+7. Framework: .NET Framework 4.8
+8. Click Create
+9. Select "Web Forms" template
+10. Click Create
+
+You now have a new project open in Visual Studio.
+
+=======================================================
+STEP 3 — SET UP THE DATABASE
+=======================================================
+
+1. Open SQL Server Management Studio (SSMS)
+2. Connect to: .\SQLEXPRESS (Windows Authentication)
+3. Click "New Query" button at the top
+4. Open the file: FrostAndFlour_Database.sql (from this folder)
+5. Copy ALL the contents and paste into SSMS query window
+6. Press F5 (or click Execute) to run it
+7. You should see "Command(s) completed successfully"
+8. In the left panel, refresh and find "FrostAndFlour" database
+
+=======================================================
+STEP 4 — CONFIGURE WEB.CONFIG
+=======================================================
+
+In Visual Studio, double-click Web.config in Solution Explorer.
+Find the <connectionStrings> section and replace it with:
+
+<connectionStrings>
+  <add name="FrostAndFlourDB"
+    connectionString="Data Source=.\SQLEXPRESS;Initial Catalog=FrostAndFlour;Integrated Security=True"
+    providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+Save the file.
+
+=======================================================
+STEP 5 — ADD ALL PROJECT FILES
+=======================================================
+
+FOLDER STRUCTURE to create:
+  FrostAndFlour/
+  ├── App_Code/
+  │     └── DBHelper.cs
+  ├── Admin/
+  │     ├── Dashboard.aspx + .cs
+  │     ├── ManageProducts.aspx + .cs
+  │     ├── ManageOrders.aspx + .cs
+  │     ├── ManageCustomers.aspx + .cs
+  │     └── SalesReport.aspx + .cs
+  ├── Site.Master + .cs
+  ├── Default.aspx + .cs
+  ├── Register.aspx + .cs
+  ├── Login.aspx + .cs
+  ├── Logout.aspx + .cs
+  ├── Products.aspx + .cs
+  ├── ProductDetail.aspx + .cs
+  ├── Cart.aspx + .cs
+  ├── OrderConfirmation.aspx + .cs
+  ├── Orders.aspx + .cs
+  ├── OrderDetail.aspx + .cs
+  └── Web.config
+
+HOW TO ADD FILES IN VISUAL STUDIO:
+
+--- Adding App_Code/DBHelper.cs ---
+1. Right-click project name in Solution Explorer
+2. Add > Add ASP.NET Folder > App_Code
+3. Right-click App_Code > Add > New Item > Class
+4. Name it: DBHelper.cs
+5. Paste the code from App_Code/DBHelper.cs
+
+--- Adding Site.Master ---
+1. Right-click project > Add > New Item
+2. Search for "Master Page" > select Web Forms Master Page
+3. Name it: Site.Master
+4. Replace all code with content from Pages/Site.Master
+
+--- Adding a normal page (e.g. Register.aspx) ---
+1. Right-click project > Add > New Item
+2. Search "Web Form" > select "Web Form with Master Page"
+3. Name it: Register.aspx
+4. Select Site.Master as master page
+5. Paste .aspx code from Pages/Register.aspx
+6. Open Register.aspx.cs and paste the code-behind
+
+--- Adding Admin folder pages ---
+1. Right-click project > Add > New Folder, name it: Admin
+2. Right-click Admin folder > Add > New Item
+3. Select "Web Form with Master Page"
+4. Name: Dashboard.aspx, then select Site.Master
+5. Paste code from Admin/Dashboard.aspx and Dashboard.aspx.cs
+6. Repeat for ManageProducts, ManageOrders, ManageCustomers, SalesReport
+
+=======================================================
+STEP 6 — MAKE Site.Master THE DEFAULT
+=======================================================
+
+In Visual Studio, right-click Site.Master > 
+"Set as Default Master Page" (if that option is available)
+
+OR when adding each page, always select Site.Master.
+
+=======================================================
+STEP 7 — RUN THE PROJECT
+=======================================================
+
+1. Press F5 in Visual Studio (or click the green ► button)
+2. The browser will open automatically
+3. You should see the Frost & Flour home page
+
+DEFAULT LOGIN CREDENTIALS:
+  Admin:
+    Email:    admin@frostandflour.com
+    Password: Admin@123
+
+  Customer:
+    Email:    shiksha@email.com
+    Password: Pass@123
+
+  (These were inserted by the SQL script in Step 3)
+
+=======================================================
+STEP 8 — TEST ALL FEATURES
+=======================================================
+
+Customer Flow:
+  1. Register a new account
+  2. Login with the account
+  3. Browse products (Products.aspx)
+  4. Click a product → view detail, pick flavor/size/message
+  5. Add to cart
+  6. Go to cart → enter delivery address → Place Order
+  7. View order confirmation
+  8. Check My Orders to see status and progress bar
+
+Admin Flow:
+  1. Login with admin credentials
+  2. You will be redirected to Admin/Dashboard.aspx
+  3. Click "Manage Products" → add a new product
+  4. Click "Manage Orders" → change an order status
+  5. Check Sales Report for analytics
+
+=======================================================
+COMMON ERRORS & FIXES
+=======================================================
+
+ERROR: "Cannot open database FrostAndFlour"
+FIX:   Make sure you ran the SQL script in SSMS first.
+       Also check Web.config — the server name must match.
+       Try: Data Source=localhost\SQLEXPRESS instead.
+
+ERROR: "Object reference not set"
+FIX:   Make sure DBHelper.cs is in the App_Code folder.
+       Make sure the namespace is correct (no namespace for App_Code).
+
+ERROR: Build errors in .cs files
+FIX:   Make sure you are using .NET Framework 4.8 project
+       (not .NET Core or .NET 5/6/7/8).
+
+ERROR: Master page not found
+FIX:   Make sure Site.Master is in the root, not in a subfolder.
+       The path ~/Site.Master must be correct in every page.
+
+ERROR: Admin pages accessible without login
+FIX:   Already handled — every admin page checks Session["Role"].
+       If you see the page without login, clear browser cookies.
+
+=======================================================
+PROJECT SUMMARY
+=======================================================
+
+Pages built: 15 pages
+Database tables: 9 tables
+Features implemented:
+  ✅ User Registration & Login (role-based)
+  ✅ Product Browsing with Search & Filter
+  ✅ Custom Cake Order (flavor, size, message)
+  ✅ Shopping Cart with Quantity
+  ✅ Checkout with Address & Payment Method
+  ✅ Order Tracking with Progress Bar
+  ✅ Order History
+  ✅ Product Reviews & Ratings
+  ✅ Admin Dashboard with Stats
+  ✅ Admin Product Management (CRUD)
+  ✅ Admin Order Management (status updates)
+  ✅ Customer Management
+  ✅ Sales Reports & Analytics
+  ✅ Tailwind CSS Responsive Design
+  ✅ Session-based Authentication
+  ✅ Role-based Access Control
+
+Technologies used:
+  - ASP.NET Web Forms (.NET Framework 4.8)
+  - Microsoft SQL Server
+  - HTML5 + Tailwind CSS
+  - C# (code-behind)
+  - SQL (stored inline with parameters — SQL injection safe)
+
+=======================================================
